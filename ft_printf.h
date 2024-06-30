@@ -8,5 +8,6 @@
 int	ft_printf(const char *s, ...);
 int	ft_putchar(int c);
 int	ft_putstr(char *s);
+int	ft_hexlen(unsigned long nbr);
 	
 #endif

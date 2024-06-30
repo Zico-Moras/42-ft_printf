@@ -29,11 +29,15 @@ int	ft_printf(const char *s, ...)
 	while (*s)
 	{
 		if (*s == '%')
-			len += conversion(s++, var);
+		{
+			len += conversion(s, var);
+			s += 2;
+		}
 		else 
-			write(1, s, 1);
-		s++;
-		len++;
+		{
+			write(1, s++, 1);
+			len++;
+		}
 	}
 	return (len);
 }

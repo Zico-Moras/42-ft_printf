@@ -3,14 +3,17 @@
 
 int main()
 {
-	ft_printf("123456\n");
-	int	test1;
-	test1 = ft_printf("12345 %c\n", '1');
-	printf("%i\n", test1);
+	//printf("%i\n", test1);
 	//printf("%i", ft_printf("123456\n"));
-	printf("%i", ft_printf("123 %c aa\n", 'c'));
+	//printf("%i", ft_printf("123 %c aa\n", 'c'));
+	//printf("%i", printf("123 %c aa\n", 'c'));
+	//printf("%i", ft_printf("123 %s aa\n", "123"));
+	int	address = 42;
+	int	*pointer = &address;
+	printf("%p\n", (void *)pointer);
+	printf("%p\n", pointer);
+	printf("%zd\n", sizeof(long long));
+	printf("%i\n", ft_hexlen(512));
 
-	//printf("12345 %c", '\n');
-	//printf("12345 %c", '\n');
 }
 
