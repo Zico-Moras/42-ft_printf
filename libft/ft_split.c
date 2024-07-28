@@ -5,66 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: francima <francima@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/22 06:37:43 by francima          #+#    #+#             */
-/*   Updated: 2024/06/22 06:37:44 by francima         ###   ########.fr       */
+/*   Created: 2024/06/23 10:39:18 by francima          #+#    #+#             */
+/*   Updated: 2024/06/23 10:46:41 by francima         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	wordscounter(const char *s, char c)
+static size_t	wordscounter(char const *s, char c)
 {
-	size_t	i;
-	size_t	counter;
 	int		flag;
+	size_t	counter;
 
-	flag = 0;
 	counter = 0;
-	i = 0;
-	while (*(s + i))
+	flag = 0;
+	while (*s)
 	{
-		if (*(s + i) != c && flag == 0)
+		if (*s != c && flag == 0)
 		{
 			counter++;
 			flag = 1;
 		}
-		if (*(s + i) == c)
+		else if (*s == c)
 			flag = 0;
-		i++;
+		s++;
 	}
 	return (counter);
 }
 
-static size_t	contaletras(const char *s, char c)
+static size_t	strlen_c(const char *s, char c)
 {
-	size_t	i;
+	size_t	i;	
 
 	i = 0;
-	while (s[i] != c && s[i])
+	while (*(s + i) && *(s + i) != c)
 		i++;
 	return (i);
 }
 
-char	**ft_split(char const *s, char c)
+static void	free_mem(char **ss, size_t j)
 {
 	size_t	i;
-	char	**ss;
 
-	if (!s)
-		return (0);
-	ss = (char **)malloc(sizeof(char *) * (wordscounter(s, c) + 1));
+	i = 0;
+	while (i < j)
+		free(ss[i++]);
+	free(ss);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**ss;
+	int		i;
+	size_t	j;
+
+	j = 0;
+	i = 0;
+	ss = malloc(sizeof(char *) * (wordscounter(s, c) + 1));
 	if (!ss)
 		return (NULL);
-	i = 0;
-	while (*s)
+	while (*(s + i))
 	{
-		while (*s && *s == c)
-			s++;
-		if (*s)
-			ss[i++] = ft_substr(s, 0, contaletras(s, c));
-		while (*s && *s != c)
-			s++;
+		if (*(s + i) == c)
+			i++;
+		else if (*(s + i) != c)
+		{
+			ss[j] = ft_substr(s, i, strlen_c(s + i, c));
+			if (!ss[j])
+				return (free_mem(ss, j), NULL);
+			j++;
+			i += strlen_c(s + i, c);
+		}
 	}
-	ss[i] = 0;
+	ss[j] = 0;
 	return (ss);
 }

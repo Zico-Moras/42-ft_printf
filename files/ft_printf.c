@@ -1,43 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: francima <francima@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/23 19:04:44 by francima          #+#    #+#             */
+/*   Updated: 2024/07/23 22:41:30 by francima         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_printf.h"
 
-static	int conversion(const char *s, va_list var)
+static int	conversions(const char *form, va_list args)
 {
-	if (*(s + 1) == 'c')
-		return (ft_putchar(va_arg(var, int)));
-	else if (*(s + 1) == 's')
-	{
-		return (ft_putstr(va_arg(var, char *)));
-	}
-	//else if (*(s + 1) == 'p')
-	//	return ;
-	//else if (*(s + 1) == 'd')
-	//	return ();
-	//else if (*(s + 1) == 'i')
+	if (*(form + 1) == 'c')
+		return(ft_putchar(va_arg(args, int)));
+	if (*(form + 1) == 's')
+		return(ft_putstr(va_arg(args, char *)));
+	if (*(form + 1) == 'd' || *(form + 1) == 'i')
+		return(ft_putnbr(va_arg(args, int)));
+	if (*(form + 1) == 'u')
+		return(ft_putun(va_arg(args, unsigned int)));
+	//if (*(form + 1) == 'x' || *(form + 1) == 'X')
+	if (*(form + 1) == '%')
+		return(write(1, "%", 1));
 	return (0);
 }
 
-int	ft_printf(const char *s, ...)
+int	ft_printf(const char *form, ...)
 {
-	va_list	var;
 	int	i;
-	int	len;
+	va_list args;
 
-
+	va_start(args, form);
 	i = 0;
-	len = 0;
-	va_start(var, s);
-	while (*s)
+
+	while (*form)
 	{
-		if (*s == '%')
+		if (*form == '%')
 		{
-			len += conversion(s, var);
-			s += 2;
+			i += conversions(form, args);
+			form += 2;
 		}
-		else 
+		else
 		{
-			write(1, s++, 1);
-			len++;
+			write(1, form, 1);
+			i++;
+			form++;
 		}
 	}
-	return (len);
+	va_end(args);
+	return (i);
 }
