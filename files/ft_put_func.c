@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_put_func.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: francima <francima@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/30 00:42:57 by francima          #+#    #+#             */
+/*   Updated: 2024/07/30 00:47:30 by francima         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_printf.h"
 
-int	ft_putchar(int	c)
+int	ft_putchar(int c)
 {
-	char a;
+	char	a;
 
 	a = c;
 	write(1, &a, 1);
@@ -12,6 +24,7 @@ int	ft_putchar(int	c)
 int	ft_putstr(char *string)
 {
 	int	len;
+
 	if (!string)
 		return (write(1, "(null)", 6));
 	len = ft_strlen(string);
@@ -22,13 +35,12 @@ int	ft_putstr(char *string)
 
 int	ft_putnbr(int n)
 {
-	int	i;
-	int	divisor;
+	int		i;
+	int		divisor;
 	char	c;
 
 	i = 0;
 	divisor = 1;
-
 	if (n == -2147483648)
 		return (write(1, "-2147483648", 11));
 	if (n < 0)
@@ -47,15 +59,15 @@ int	ft_putnbr(int n)
 	}
 	return (i);
 }
+
 int	ft_putun(unsigned int n)
 {
-	int	i;
-	int	divisor;
+	int		i;
+	int		divisor;
 	char	c;
 
 	i = 0;
 	divisor = 1;
-
 	while (n / divisor >= 10)
 		divisor *= 10;
 	while (divisor)

@@ -14,14 +14,15 @@
 # define FT_PRINTF_H
 # include <unistd.h> 
 # include <stdarg.h>
-# include "libft/libft.h"
+# include "42-libft/libft.h"
 
 int	ft_printf(const char *form, ...);
-int	ft_putchar(int	c);
+int	ft_putchar(int c);
 int	ft_putstr(char *string);
 int	ft_putnbr(int n);
 int	ft_putun(unsigned int n);
 int	ft_hexlen(long n);
+int	ft_puthex(unsigned long n, char *base);
+int	ft_putpointer(unsigned long n);
 
 #endif
-

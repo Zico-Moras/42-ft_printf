@@ -6,18 +6,19 @@
 #    By: francima <francima@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/23 18:30:39 by francima          #+#    #+#              #
-#    Updated: 2024/07/23 22:39:38 by francima         ###   ########.fr        #
+#    Updated: 2024/07/30 00:55:49 by francima         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-LIBFT = ./libft/libft.a
-LIBFTDIR = ./libft
+LIBFT_REPO = git@github.com:Zico-Moras/42-libft.git
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_DIR = ./42-libft
 
 SRC = ./files
 
-PRINTF_SRCS = ft_printf.c ft_put_func.c ft_hex.c
+PRINTF_SRCS = ft_printf.c ft_put_func.c ft_hex.c ft_putpointer.c
 
 OBJS = $(PRINTF_SRCS:.c=.o)
 
@@ -29,28 +30,32 @@ CP = cp
 
 all:	$(NAME)
 
+$(LIBFT): 
+	@if [ ! -d "$(LIBFT_DIR)" ]; then \
+	echo "Cloning libft repository..."; \
+	git clone $(LIBFT_REPO) $(LIBFT_DIR); \
+	else \
+	echo "libft already exists"; \
+	fi
+	@echo "Building libft"
+	$(MAKE) -C $(LIBFT_DIR)
+
 $(NAME):	$(LIBFT) $(OBJS)
 	$(CP) $(LIBFT) $(NAME)
 	@$(AR) $(NAME) $(OBJS)
 
-$(LIBFT):	$(LIBFTDIR)
-		@$(MAKE) -C $(LIBFTDIR)
 
 %.o:	$(SRC)/%.c
 		@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(MAKE) clean -C $(LIBFTDIR)
+	@$(MAKE) clean -C $(LIBFT_DIR)
 	@$(RM) $(OBJS)
 
 fclean:	clean
-	@$(MAKE) fclean -C $(LIBFTDIR)
+	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@$(RM) $(NAME)
 
 re:	fclean all
-
-main: 
-	cc -Wall -Werror -Wextra test.c -L. libftprintf.a
-	./a.out
 
 .PHONY:	all clean fclean re
